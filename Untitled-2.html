@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Praktikum Algoritma Pencarian · UNNES 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f7fa;
+      color: #1a2c3e;
+    }
+
+    /* ========== NAVIGATION BAR (MODERN) ========== */
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 0.8rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logo-unnes-nav {
+      height: 45px;
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #1a4d5f;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #4a627a;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #1a4d5f;
+    }
+
+    .btn-masuk-nav {
+      background: #1a4d5f;
+      color: white !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+    }
+
+    /* ========== HALAMAN LOGIN (DESAIN KARTU MODERN) ========== */
+    .login-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 70px);
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e8edf3 100%);
+    }
+
+    .login-card-modern {
+      background: white;
+      border-radius: 2rem;
+      max-width: 480px;
+      width: 100%;
+      padding: 2.2rem;
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .login-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1a4d5f;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-header p {
+      color: #6c7e91;
+      font-size: 0.85rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-bottom: 0.4rem;
+      color: #2c4c6c;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9aaebf;
+      font-size: 1rem;
+    }
+
+    .input-with-icon input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.8rem;
+      border: 1px solid #d4e0e8;
+      border-radius: 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .input-with-icon input:focus {
+      outline: none;
+      border-color: #2a9d8f;
+      box-shadow: 0 0 0 3px rgba(42,157,143,0.1);
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-bottom: 1.2rem;
+    }
+
+    .forgot-password a {
+      font-size: 0.75rem;
+      color: #2a9d8f;
+      text-decoration: none;
+    }
+
+    .btn-login-modern {
+      width: 100%;
+      background: #1a4d5f;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .btn-login-modern:hover {
+      background: #0f3a48;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 1rem 0;
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: #e2edf2;
+    }
+
+    .divider span {
+      background: white;
+      padding: 0 1rem;
+      position: relative;
+      font-size: 0.75rem;
+      color: #8ba0b0;
+    }
+
+    .btn-google {
+      width: 100%;
+      background: white;
+      border: 1px solid #d4e0e8;
+      padding: 0.7rem;
+      border-radius: 2rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: 0.2s;
+    }
+
+    .btn-google:hover {
+      background: #f8fafc;
+      border-color: #2a9d8f;
+    }
+
+    .register-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .register-link a {
+      color: #2a9d8f;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .error-message {
+      background: #fee2e2;
+      color: #d9534f;
+      padding: 0.7rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      display: none;
+    }
+
+    /* ========== KONTEN UTAMA (DASHBOARD + PRAKTIKUM) ========== */
+    .main-content {
+      display: none;
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    .welcome-banner {
+      background: linear-gradient(135deg, #1a4d5f, #0f2c38);
+      border-radius: 1.5rem;
+      padding: 1.2rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      color: white;
+    }
+
+    .user-name-large {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0.2rem 0;
+    }
+
+    .logout-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* Header modul praktikum */
+    .modul-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge-unnes {
+      background: #0b2b26;
+      color: #d4f3ef;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1a4d5f, #0f2c38);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .sub {
+      color: #4a627a;
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /* Panel algoritma */
+    .algo-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .panel-card {
+      flex: 1;
+      min-width: 340px;
+      background: white;
+      border-radius: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2edf2;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .panel-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-header {
+      padding: 1.2rem 1.5rem;
+      background: #f9fbfe;
+      border-bottom: 2px solid;
+    }
+
+    .linear-header {
+      border-bottom-color: #f4a261;
+    }
+    .binary-header {
+      border-bottom-color: #2a9d8f;
+    }
+
+    .card-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.4rem;
+      flex-wrap: wrap;
+    }
+
+    .complexity-tag {
+      font-family: 'JetBrains Mono', monospace;
+      background: #eef2f5;
+      padding: 0.2rem 0.7rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .input-group label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 0.4rem;
+      color: #2c4c6c;
+    }
+
+    .input-group textarea, .input-group input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid #cbdde6;
+      border-radius: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      background: white;
+    }
+
+    .btn-cari {
+      background: #1e4663;
+      color: white;
+      border: none;
+      padding: 0.7rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-cari:hover {
+      background: #0e3450;
+    }
+
+    .result-box {
+      margin-top: 1.5rem;
+      background: #f8fafd;
+      border-radius: 1.2rem;
+      padding: 1rem;
+      border-left: 4px solid;
+      font-size: 0.85rem;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .result-linear {
+      border-left-color: #f4a261;
+    }
+    .result-binary {
+      border-left-color: #2a9d8f;
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: #1e6f5c;
+    }
+
+    .info-syarat {
+      background: #fff7e5;
+      padding: 0.5rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-data {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      background: #eef2fa;
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 6px;
+      margin-right: 8px;
+    }
+
+    .demo-data:hover {
+      background: #e0e8f2;
+    }
+
+    .warning-badge {
+      background: #fff0e0;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      color: #6c7e91;
+      border-top: 1px solid #d4e2ec;
+      padding-top: 1.2rem;
+    }
+
+    @media (max-width: 780px) {
+      .algo-panel {
+        flex-direction: column;
+      }
+      .welcome-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .modul-header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== HALAMAN LOGIN ==================== -->
+<div id="loginPage">
+  <div class="navbar">
+    <div class="nav-container">
+      <div class="logo-area">
+        <img src="https://res.cloudinary.com/dobtafzwo/image/upload/v1776436925/logo-unnes-horizontal_lnov39.png" alt="UNNES" class="logo-unnes-nav">
+        <span class="logo-text"></span>
+      </div>
+      <div class="nav-links">
+        <a href="#" class="btn-masuk-nav">Masuk</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-page">
+    <div class="login-card-modern">
+      <div class="login-header">
+        <h1>Halo, Selamat Datang👋</h1>
+        <p>Masukkan NIM dan Password Anda</p>
+      </div>
+      <div id="loginErrorMsg" class="error-message"></div>
+      <div class="form-group">
+        <label>NIM</label>
+        <div class="input-with-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="text" id="loginUsername" placeholder="contoh: 2504030043">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-with-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="loginPassword" placeholder="Masukkan password">
+        </div>
+      </div>
+      <div class="forgot-password">
+        <a href="#">Lupa password?</a>
+      </div>
+      <button class="btn-login-modern" id="btnLoginSubmit">Masuk</button>
+      <div class="divider"><span>ATAU</span></div>
+      <button class="btn-google" id="btnGoogleDummy"><i class="fab fa-google"></i> Masuk dengan Google</button>
+      <div class="register-link">Belum punya akun? <a href="#">Daftar sekarang</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== KONTEN UTAMA (PRAKTIKUM + ALGORITMA) ==================== -->
+<div id="mainApp" class="main-content">
+  <div class="dashboard-container">
+    <!-- Banner selamat datang -->
+    <div class="welcome-banner">
+      <div>
+        <span style="font-size: 0.8rem;">👋 SELAMAT DATANG,</span>
+        <div class="user-name-large" id="userFullName">Mahasiswa</div>
+        <div style="font-size: 0.8rem; opacity: 0.9;" id="userNim">NIM: -</div>
+      </div>
+      <button id="logoutBtn" class="logout-btn">LOGOUT</button>
+    </div>
+
+    <!-- Header modul -->
+    <div class="modul-header">
+      <div class="badge-unnes">ALGORITMA PEMROGRAMAN</div>
+      <h1>🔎 Algoritma Pencarian : <br> Linear Search dan Binary Search</h1>
+      <div class="sub">
+        <strong>Kelompok 10</strong><br>
+        1. Nabila 'Aina Syarifa (2504030043)<br>
+        2. Muhammad Elian Nabil (2504030062)<br>
+        3. Achmad Muqorrobin (2504030064)<br>
+        <br>
+        <strong>Dosen Pengampu :</strong> <br> Bapak Amidi, S.Si., M.Pd.<br>
+        <br>
+        <strong>PRODI MATEMATIKA</strong> <br>
+        <strong>Fakultas Matematika dan Ilmu Pengetahuan Alam</strong><br>
+        <strong>UNIVERSITAS NEGERI SEMARANG 2026</strong><br>
+        Masukkan data sebanyak apapun, website akan mencari dan menampilkan indeks dengan tepat.
+      </div>
+    </div>
+
+    <!-- Panel algoritma -->
+    <div class="algo-panel">
+      <!-- LINEAR SEARCH PANEL -->
+      <div class="panel-card">
+        <div class="card-header linear-header">
+          <h2><span>🔍</span> Linear Search <span class="complexity-tag">O(n)</span></h2>
+          <p style="font-size:0.75rem; margin-top:6px;">Pencarian berurutan · Data TIDAK perlu terurut · Tanpa batas data</p>
+        </div>
+        <div class="card-body">
+          <div class="input-group">
+            <label>📊 Data Array (pisahkan dengan koma, spasi, atau enter) — <span class="warning-badge">bisa ribuan data</span></label>
+            <textarea id="linearData" rows="4" placeholder="Contoh: 17, 8, 21, 5, 12, 99, 3, 45, 67, 89, 100, 200, 55, 77, 88, 120, 500, 1000, 2500, 9999, ... (bebas berapa pun)">17, 8, 21, 5, 12, 99, 3, 45, 67, 89, 100, 200, 55, 77, 88, 120, 500, 1000, 2500</textarea>
+            <div class="demo-data" onclick="setLargeLinearExample()">📋 Contoh data besar (25+ angka)</div>
+            <div class="demo-data" onclick="setRandomLinear()">🎲 Generate data acak (100 angka)</div>
+          </div>
+          <div class="input-group">
+            <label>🎯 Angka yang dicari</label>
+            <input type="number" id="linearTarget" placeholder="Masukkan angka target" value="99">
+          </div>
+          <button class="btn-cari" id="btnLinearCari">🔎 Cari dengan Linear Search</button>
+          <div class="result-box result-linear" id="linearResult">
+            💡 <strong>Hasil pencarian akan tampil di sini</strong><br>
+            Linear search akan menyisir setiap elemen dari indeks 0 hingga akhir.
+          </div>
+          <div class="info-syarat">
+            <span>📌</span> <strong>Prinsip:</strong> Membandingkan tiap elemen satu per satu → cocok → return indeks. <br>
+            ✔ Kelebihan: data boleh acak / tidak terurut, tanpa batasan jumlah. ✖ Kekurangan: O(n) untuk data besar.
+          </div>
+        </div>
+      </div>
+
+      <!-- BINARY SEARCH PANEL -->
+      <div class="panel-card">
+        <div class="card-header binary-header">
+          <h2><span>⚡</span> Binary Search <span class="complexity-tag">O(log n)</span></h2>
+          <p style="font-size:0.75rem; margin-top:6px;">Pencarian bagi dua · WAJIB data terurut (akan diurutkan otomatis)</p>
+        </div>
+        <div class="card-body">
+          <div class="input-group">
+            <label>📊 Data Array (pisahkan dengan koma) — <span class="warning-badge">bebas jumlah, nanti diurutkan</span></label>
+            <textarea id="binaryDataRaw" rows="4" placeholder="Contoh: 5, 12, 3, 21, 8, 17, 99, 44, 2, 100, 2000, 7, 19, 88, 500, 1200">5, 12, 3, 21, 8, 17, 99, 44, 2, 100, 2000, 7, 19, 88, 500, 1200</textarea>
+            <div class="demo-data" onclick="setLargeBinaryExample()">📋 Contoh data besar (acak)</div>
+            <div class="demo-data" onclick="setRandomBinary()">🎲 Generate data acak (100 angka)</div>
+          </div>
+          <div class="input-group">
+            <label>🎯 Angka yang dicari</label>
+            <input type="number" id="binaryTarget" placeholder="Masukkan angka target" value="99">
+          </div>
+          <button class="btn-cari" id="btnBinaryCari">⚡ Cari dengan Binary Search</button>
+          <div class="result-box result-binary" id="binaryResult">
+            💡 <strong>Hasil pencarian + indeks setelah sorting</strong><br>
+            Binary search hanya bekerja pada data terurut. Array akan diurutkan ascending terlebih dahulu.
+          </div>
+          <div class="info-syarat">
+            <span>⚠️</span> <strong>Syarat mutlak:</strong> data harus TERURUT (ascending). Program akan mengurutkan otomatis, lalu mencari dengan O(log n).
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">
+      <br>© 2026 | Praktikum Algoritma Pemrograman Materi Algoritma Pencarian - UNNES
+    </div>
+  </div>
+</div>
+
+<script>
+  // ======================= DATABASE MAHASISWA =======================
+  const DATA_MAHASISWA = {
+    "2504030039": { nama: "MUHAMMAD IRSYADUL WAVI", nim: "2504030039", email: "2504030039@students.unnes.ac.id" },
+    "2504030040": { nama: "DEMAS ALAN WIBOWO", nim: "2504030040", email: "2504030040@students.unnes.ac.id" },
+    "2504030041": { nama: "SALSABILA AZZAHRA NUR RILA", nim: "2504030041", email: "2504030041@students.unnes.ac.id" },
+    "2504030042": { nama: "NOOR AYYANAHAA AZZA", nim: "2504030042", email: "2504030042@students.unnes.ac.id" },
+    "2504030043": { nama: "NABILA 'AINA SYARIFA", nim: "2504030043", email: "2504030043@students.unnes.ac.id" },
+    "2504030044": { nama: "MARENO DWI FAISHAL AL FATTAH", nim: "2504030044", email: "2504030044@students.unnes.ac.id" },
+    "2504030045": { nama: "HAICHAL WAIZ AL QODRI", nim: "2504030045", email: "2504030045@students.unnes.ac.id" },
+    "2504030046": { nama: "Chafiyya Shofa", nim: "2504030046", email: "2504030046@students.unnes.ac.id" },
+    "2504030047": { nama: "AZ ZAHRA NADIA HAUNA", nim: "2504030047", email: "2504030047@students.unnes.ac.id" },
+    "2504030048": { nama: "Azka Qaani' Muhana", nim: "2504030048", email: "2504030048@students.unnes.ac.id" },
+    "2504030049": { nama: "Wulan Hari Cahyani", nim: "2504030049", email: "2504030049@students.unnes.ac.id" },
+    "2504030050": { nama: "klara faradina wahda", nim: "2504030050", email: "2504030050@students.unnes.ac.id" },
+    "2504030051": { nama: "Nayla Syifa Khilyatul Aulia", nim: "2504030051", email: "2504030051@students.unnes.ac.id" },
+    "2504030052": { nama: "NAILA DISTI AMANDA MEILANY", nim: "2504030052", email: "2504030052@students.unnes.ac.id" },
+    "2504030053": { nama: "Cinta Na'ilah Fajrina", nim: "2504030053", email: "2504030053@students.unnes.ac.id" },
+    "2504030054": { nama: "Ananda Muhammad Fikra Aditama", nim: "2504030054", email: "2504030054@students.unnes.ac.id" },
+    "2504030055": { nama: "Elvis Salma", nim: "2504030055", email: "2504030055@students.unnes.ac.id" },
+    "2504030056": { nama: "Naufal Saputra", nim: "2504030056", email: "2504030056@students.unnes.ac.id" },
+    "2504030057": { nama: "Taufiqurrahman", nim: "2504030057", email: "2504030057@students.unnes.ac.id" },
+    "2504030058": { nama: "Adhisty Dwi Purwanti", nim: "2504030058", email: "2504030058@students.unnes.ac.id" },
+    "2504030059": { nama: "Muhammad Fairuz Zaki", nim: "2504030059", email: "2504030059@students.unnes.ac.id" },
+    "2504030060": { nama: "Auzora Intan Aulia", nim: "2504030060", email: "2504030060@students.unnes.ac.id" },
+    "2504030061": { nama: "Sukma Ruciasari", nim: "2504030061", email: "2504030061@students.unnes.ac.id" },
+    "2504030062": { nama: "Muhamad Elian Nabil", nim: "2504030062", email: "2504030062@students.unnes.ac.id" },
+    "2504030063": { nama: "Ismail Hasan", nim: "2504030063", email: "2504030063@students.unnes.ac.id" },
+    "2504030064": { nama: "ACHMAD MUQORROBIN", nim: "2504030064", email: "2504030064@students.unnes.ac.id" },
+    "2504030065": { nama: "Farella Gita Putri Ramadani", nim: "2504030065", email: "2504030065@students.unnes.ac.id" },
+    "2504030066": { nama: "Yuniana Afni", nim: "2504030066", email: "2504030066@students.unnes.ac.id" },
+    "2504030067": { nama: "Belda Ardella Ramadhani", nim: "2504030067", email: "2504030067@students.unnes.ac.id" },
+    "2504030068": { nama: "Ega Patriya", nim: "2504030068", email: "2504030068@students.unnes.ac.id" },
+    "2504030069": { nama: "Hasifa Sulistia Ramadhani", nim: "2504030069", email: "2504030069@students.unnes.ac.id" },
+    "2504030070": { nama: "Gading Adi Raga", nim: "2504030070", email: "2504030070@students.unnes.ac.id" },
+    "2504030071": { nama: "Farris Muhamad Indi Lutfhi", nim: "2504030071", email: "2504030071@students.unnes.ac.id" },
+    "2504030072": { nama: "IMMANUEL HUTAPEA", nim: "2504030072", email: "2504030072@students.unnes.ac.id" },
+    "2504030073": { nama: "Daniel Ignatius Iwan Lutan", nim: "2504030073", email: "2504030073@students.unnes.ac.id" },
+    "2504030074": { nama: "NINDA RISMAWATI VIRGINIA", nim: "2504030074", email: "2504030074@students.unnes.ac.id" },
+    "2504030075": { nama: "Agil Aliy Ashghar", nim: "2504030075", email: "2504030075@students.unnes.ac.id" },
+    "2504030076": { nama: "Zahwa Cinta Nabila", nim: "2504030076", email: "2504030076@students.unnes.ac.id" },
+    "4111419050": { nama: "AZIZ NURHIDAYAT ADRIYANTO", nim: "4111419050", email: "4111419050@students.unnes.ac.id" }
+  };
+
+  function findUserByInput(input) {
+    input = input.trim().toLowerCase();
+    if (/^\d+$/.test(input) && DATA_MAHASISWA[input]) return DATA_MAHASISWA[input];
+    for (let nim in DATA_MAHASISWA) {
+      if (DATA_MAHASISWA[nim].email && DATA_MAHASISWA[nim].email.toLowerCase() === input) return DATA_MAHASISWA[nim];
+    }
+    return null;
+  }
+
+  // ======================= SESSION MANAGEMENT (BERDASARKAN WAKTU REAL DEVICE) =======================
+  let currentUser = null;
+  let sessionCheckInterval = null;
+  const SESSION_DURATION_HOURS = 1; // 1 jam
+
+  function saveLoginTime() {
+    localStorage.setItem('loginTime', Date.now().toString());
+    localStorage.setItem('sessionActive', 'true');
+  }
+
+  function getLoginTime() {
+    const loginTimeStr = localStorage.getItem('loginTime');
+    if (!loginTimeStr) return null;
+    return parseInt(loginTimeStr);
+  }
+
+  function isSessionExpired() {
+    const loginTime = getLoginTime();
+    if (!loginTime) return true;
+    const now = Date.now();
+    const diffMs = now - loginTime;
+    const diffHours = diffMs / (1000 * 60 * 60);
+    return diffHours >= SESSION_DURATION_HOURS;
+  }
+
+  function autoLogoutByTime() {
+    if (!currentUser && mainApp.style.display !== 'block') return;
+    
+    // Hapus session storage
+    localStorage.removeItem('loginTime');
+    localStorage.removeItem('sessionActive');
+    localStorage.removeItem('currentUserData');
+    
+    if (sessionCheckInterval) {
+      clearInterval(sessionCheckInterval);
+      sessionCheckInterval = null;
+    }
+    
+    currentUser = null;
+    mainApp.style.display = 'none';
+    loginPage.style.display = 'block';
+    loginUsername.value = '';
+    loginPassword.value = '';
+    
+    // Tampilkan pesan session berakhir
+    const errorDiv = document.getElementById('loginErrorMsg');
+    if (errorDiv) {
+      errorDiv.style.display = 'block';
+      errorDiv.innerHTML = '⏰ Sesi Anda telah berakhir (1 jam). Silakan login kembali.';
+      setTimeout(() => {
+        errorDiv.style.display = 'none';
+      }, 5000);
+    }
+  }
+
+  function startSessionChecker() {
+    if (sessionCheckInterval) clearInterval(sessionCheckInterval);
+    sessionCheckInterval = setInterval(() => {
+      if (currentUser && isSessionExpired()) {
+        autoLogoutByTime();
+      }
+    }, 10000); // Cek setiap 10 detik
+  }
+
+  function stopSessionChecker() {
+    if (sessionCheckInterval) {
+      clearInterval(sessionCheckInterval);
+      sessionCheckInterval = null;
+    }
+  }
+
+  // Cek session saat halaman dimuat (refresh/tutup browser)
+  function checkExistingSession() {
+    const savedUserStr = localStorage.getItem('currentUserData');
+    const loginTime = getLoginTime();
+    
+    if (savedUserStr && loginTime && !isSessionExpired()) {
+      // Session masih valid
+      const user = JSON.parse(savedUserStr);
+      currentUser = user;
+      loginPage.style.display = 'none';
+      mainApp.style.display = 'block';
+      document.getElementById('userFullName').textContent = user.nama;
+      document.getElementById('userNim').textContent = `NIM: ${user.nim}`;
+      startSessionChecker();
+    } else if (savedUserStr && loginTime && isSessionExpired()) {
+      // Session expired
+      localStorage.removeItem('loginTime');
+      localStorage.removeItem('sessionActive');
+      localStorage.removeItem('currentUserData');
+      loginPage.style.display = 'flex';
+      mainApp.style.display = 'none';
+    } else {
+      loginPage.style.display = 'flex';
+      mainApp.style.display = 'none';
+    }
+  }
+
+  // ======================= LOGIN & LOGOUT =======================
+  const loginPageDiv = document.getElementById('loginPage');
+  const mainAppDiv = document.getElementById('mainApp');
+  const loginBtnElem = document.getElementById('btnLoginSubmit');
+  const loginUsernameElem = document.getElementById('loginUsername');
+  const loginPasswordElem = document.getElementById('loginPassword');
+  const loginErrorMsgElem = document.getElementById('loginErrorMsg');
+  const logoutBtnElem = document.getElementById('logoutBtn');
+
+  function attemptLogin() {
+    const input = loginUsernameElem.value.trim();
+    const password = loginPasswordElem.value.trim();
+    const user = findUserByInput(input);
+    
+    if (user && password === "alpro2026") {
+      currentUser = user;
+      
+      // Simpan session ke localStorage
+      saveLoginTime();
+      localStorage.setItem('currentUserData', JSON.stringify({ 
+        nama: user.nama, 
+        nim: user.nim,
+        email: user.email 
+      }));
+      
+      loginPageDiv.style.display = 'none';
+      mainAppDiv.style.display = 'block';
+      document.getElementById('userFullName').textContent = user.nama;
+      document.getElementById('userNim').textContent = `NIM: ${user.nim}`;
+      loginErrorMsgElem.style.display = 'none';
+      
+      // Mulai pengecekan session
+      startSessionChecker();
+    } else {
+      loginErrorMsgElem.style.display = 'block';
+      loginErrorMsgElem.innerHTML = '❌ NIM atau password salah! Gunakan password: <strong>alpro2026</strong>';
+    }
+  }
+
+  function logout() {
+    // Hapus semua data session
+    localStorage.removeItem('loginTime');
+    localStorage.removeItem('sessionActive');
+    localStorage.removeItem('currentUserData');
+    
+    stopSessionChecker();
+    
+    currentUser = null;
+    mainAppDiv.style.display = 'none';
+    loginPageDiv.style.display = 'block';
+    loginUsernameElem.value = '';
+    loginPasswordElem.value = '';
+    loginErrorMsgElem.style.display = 'none';
+  }
+
+  loginBtnElem.addEventListener('click', attemptLogin);
+  if (logoutBtnElem) logoutBtnElem.addEventListener('click', logout);
+  
+  loginUsernameElem.addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
+  loginPasswordElem.addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
+  
+  document.getElementById('btnGoogleDummy')?.addEventListener('click', () => {
+    loginErrorMsgElem.style.display = 'block';
+    loginErrorMsgElem.innerHTML = '🔐 Demo: Gunakan NIM dan password "alpro2026" untuk login.';
+  });
+
+  // ======================= FUNGSI ALGORITMA PENCARIAN =======================
+  function parseArrayFromInput(str) {
+    let cleaned = str.replace(/\n/g, ',').replace(/\t/g, ',').replace(/\s+/g, ',');
+    let parts = cleaned.split(',');
+    let arr = [];
+    for (let part of parts) {
+      let trimmed = part.trim();
+      if (trimmed !== "") {
+        let num = Number(trimmed);
+        if (!isNaN(num)) arr.push(num);
+      }
+    }
+    return arr;
+  }
+
+  function linearSearch(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === target) return { found: true, index: i, comparisons: i + 1 };
+    }
+    return { found: false, comparisons: arr.length };
+  }
+
+  function binarySearchOnSorted(sortedArr, target) {
+    let left = 0, right = sortedArr.length - 1, steps = 0;
+    while (left <= right) {
+      steps++;
+      const mid = Math.floor((left + right) / 2);
+      if (sortedArr[mid] === target) return { found: true, index: mid, steps };
+      if (sortedArr[mid] < target) left = mid + 1;
+      else right = mid - 1;
+    }
+    return { found: false, steps };
+  }
+
+  window.setLargeLinearExample = () => {
+    document.getElementById('linearData').value = [17,8,21,5,12,99,3,45,67,89,100,200,55,77,88,120,500,1000,2500,5000,7500,10000,20000,350,680,920,1500,3000,7000,9000,12345,54321,99999].join(', ');
+    document.getElementById('linearTarget').value = "99";
+  };
+  
+  window.setRandomLinear = () => {
+    let arr = Array.from({length:100}, () => Math.floor(Math.random()*10000));
+    document.getElementById('linearData').value = arr.join(', ');
+    document.getElementById('linearTarget').value = arr[Math.floor(Math.random()*100)];
+  };
+  
+  window.setLargeBinaryExample = () => {
+    document.getElementById('binaryDataRaw').value = [5,12,3,21,8,17,99,44,2,100,2000,7,19,88,500,1200,2500,6800,999,150,300,450,700,1100,1800,3200,5600,8900,12000,25000,50000,75000].join(', ');
+    document.getElementById('binaryTarget').value = "99";
+  };
+  
+  window.setRandomBinary = () => {
+    let arr = Array.from({length:100}, () => Math.floor(Math.random()*10000));
+    document.getElementById('binaryDataRaw').value = arr.join(', ');
+    document.getElementById('binaryTarget').value = arr[Math.floor(Math.random()*100)];
+  };
+
+  document.getElementById('btnLinearCari').addEventListener('click', () => {
+    const raw = document.getElementById('linearData').value;
+    const target = Number(document.getElementById('linearTarget').value);
+    if (isNaN(target)) { document.getElementById('linearResult').innerHTML = '❌ Target harus angka'; return; }
+    const arr = parseArrayFromInput(raw);
+    if (!arr.length) { document.getElementById('linearResult').innerHTML = '❌ Data kosong'; return; }
+    const res = linearSearch(arr, target);
+    if (res.found) {
+      document.getElementById('linearResult').innerHTML = `✅ DITEMUKAN!<br>Indeks: ${res.index}<br>Perbandingan: ${res.comparisons} elemen`;
+    } else {
+      document.getElementById('linearResult').innerHTML = `❌ TIDAK DITEMUKAN<br>Memeriksa ${res.comparisons} elemen`;
+    }
+  });
+
+  document.getElementById('btnBinaryCari').addEventListener('click', () => {
+    const raw = document.getElementById('binaryDataRaw').value;
+    const target = Number(document.getElementById('binaryTarget').value);
+    if (isNaN(target)) { document.getElementById('binaryResult').innerHTML = '❌ Target harus angka'; return; }
+    let original = parseArrayFromInput(raw);
+    if (!original.length) { document.getElementById('binaryResult').innerHTML = '❌ Data kosong'; return; }
+    const sorted = [...original].sort((a,b)=>a-b);
+    const res = binarySearchOnSorted(sorted, target);
+    if (res.found) {
+      document.getElementById('binaryResult').innerHTML = `✅ DITEMUKAN!<br>Indeks (setelah urut): ${res.index}<br>Langkah: ${res.steps}`;
+    } else {
+      document.getElementById('binaryResult').innerHTML = `❌ TIDAK DITEMUKAN<br>Langkah pencarian: ${res.steps}`;
+    }
+  });
+
+  // Jalankan pengecekan session saat halaman dimuat
+  checkExistingSession();
+</script>
+</body>
+</html>
